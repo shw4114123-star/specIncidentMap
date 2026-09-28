@@ -1,9 +1,14 @@
-import {z} from "zod";
+import { asyncWrapper } from "./asyncWrapper.js"
+import { createError } from "./errorHandler.js"
+import { verifyToken } from "./generateToken.js";
 
-export const createUserSchema = z.object({
-    body: z.object({
-        email: z.string().email("invalid email"),
-        password: z.string().min(8, "password must be minimum 8 characters")
-    })
+
+export const autoMiddleware = asyncWrapper(async (req, _res, next) => {
+    const { authorization } = req.headers;
+    if (!authorization) throw new createError("mising requierd header", 401);
+    const token = authorization.split("Bearer ")[1];
+    if (!token) throw new createError("mising requierd header", 401)
+    const player = verifyToken(token);
+    req.user = player;
+    next()
 })
-
