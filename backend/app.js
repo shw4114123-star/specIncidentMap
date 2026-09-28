@@ -6,7 +6,7 @@ import { createServer } from "http"
 import { Server } from "socket.io"
 import "./db/db.js"
 import autoRouter from "./routes/auth.routes.js"
-import { asyncWrapper } from "./utils/asyncWrapper.js"
+import incidentsRouter from "./routes/incidents.routes.js"
 import { errorHandler } from "./utils/errorHandler.js"
 
 const PORT = process.env.PORT
@@ -16,13 +16,12 @@ app.use(helmet())
 app.use(express.json())
 app.use(cors())
 app.use("/auto", autoRouter)
+app.use("/incidents", incidentsRouter)
 const io = new Server(server, {
     cors: {
         origin: ["http://localhost:5173"]
     }
 })
-
-
 app.use(errorHandler)
 
 server.listen(PORT, () => {

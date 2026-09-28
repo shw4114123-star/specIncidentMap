@@ -1,8 +1,9 @@
 import express from "express"
 import { createUser, getUserById, loginUser } from "../controller/auth.ctrl.js"
-import { userSchema, validate } from "../validations/auth.validation.js"
+import { userSchema } from "../validations/auth.zodValidation.js"
 import { asyncWrapper } from "../utils/asyncWrapper.js"
 import { authMiddleware } from "../utils/authMiddleware.js"
+import { validate } from "../validations/validate.js"
 
 const router = express.Router()
 
