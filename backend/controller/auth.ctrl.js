@@ -3,17 +3,16 @@ import { passwordCompare, passwordHash } from "../utils/bcryptPasswors.js";
 import { createError } from "../utils/errorHandler.js";
 import { generateToken } from "../utils/generateToken.js";
 
-
 export const createUser = async (req, res) => {
     const { email, password } = req.body;
     const existsUser = await getUserByEmail(email);
     if (existsUser) throw new createError("user alredy exists", 409);
     const passHash = await passwordHash(password);
     const user = await createUserDAL(email, passHash)
+    const token = generateToken(user._id)
     delete user.passHash
-    res.status(201).json({ success: true, data: user })
+    res.status(201).json({ success: true, data: { user, token } })
 }
-
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
