@@ -5,7 +5,7 @@ import helmet from "helmet"
 import { createServer } from "http"
 import { Server } from "socket.io"
 import "./db/db.js"
-import autoRouter from "./routes/auth.routes.js"
+import authRouter from "./routes/auth.routes.js"
 import incidentsRouter from "./routes/incidents.routes.js"
 import { errorHandler } from "./utils/errorHandler.js"
 
@@ -15,7 +15,7 @@ const server = createServer(app)
 app.use(helmet())
 app.use(express.json())
 app.use(cors())
-app.use("/auto", autoRouter)
+app.use("/auth", authRouter)
 app.use("/incidents", incidentsRouter)
 const io = new Server(server, {
     cors: {
