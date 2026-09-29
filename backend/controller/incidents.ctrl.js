@@ -6,11 +6,13 @@ import {
     updateincidentsDAL
 } from "../DAL/incident.dal.js"
 import { createError } from "../utils/errorHandler.js"
+import { getIo } from "../utils/socket.js"
 
 export const createIncidents = async (req, res) => {
     const { title, description, category, location } = req.body
     const { userId } = req.user
     const incidents = await createIncidentsDAL(title, description, category, location, userId)
+    getIo().emit("incident:created", incidents)
     res.status(201).json({ success: true, data: incidents })
 }
 
@@ -36,6 +38,7 @@ export const updateincidents = async (req, res) => {
     if (incident.createdBy !== userId) throw new createError("not authorized to modify", 403)
     const update = await updateincidentsDAL(id, body)
     if (!update) throw new createError("not found incidents", 404);
+    getIo().emit("incident:updated", update)
     res.json({ success: true, data: update })
 }
 
@@ -47,5 +50,6 @@ export const deleteIncidents = async (req, res) => {
     if (incident.createdBy !== userId) throw new createError("not authorized to modify", 403)
     const incidents = await deleteIncidentsDAL(id)
     if (incidents.deletedCount === 0) throw new createError("not found incidents", 404)
+    getIo().emit("incident:deleted", { id })
     res.json({ success: true, data: incidents })
 }

@@ -8,7 +8,7 @@ import {
     getIncidentsById,
     updateincidents
 } from "../controller/incidents.ctrl.js"
-import { incidentsSchema } from "../validations/incident.zodValidation.js"
+import { incidentsSchema, updateIncidentsSchema } from "../validations/incident.zodValidation.js"
 import { validate } from "../validations/validate.js"
 
 const router = express.Router()
@@ -19,7 +19,7 @@ router.get("/", authMiddleware, asyncWrapper(getAllIncidents))
 
 router.get("/:id", authMiddleware, asyncWrapper(getIncidentsById))
 
-router.patch("/:id", authMiddleware, asyncWrapper(updateincidents))
+router.patch("/:id", authMiddleware, validate(updateIncidentsSchema), asyncWrapper(updateincidents))
 
 router.delete("/:id", authMiddleware, asyncWrapper(deleteIncidents))
 

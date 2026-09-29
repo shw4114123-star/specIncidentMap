@@ -8,6 +8,7 @@ import "./db/db.js"
 import authRouter from "./routes/auth.routes.js"
 import incidentsRouter from "./routes/incidents.routes.js"
 import { errorHandler } from "./utils/errorHandler.js"
+import { initSocket } from "./utils/socket.js"
 
 const PORT = process.env.PORT
 const app = express()
@@ -22,6 +23,7 @@ const io = new Server(server, {
         origin: ["http://localhost:5173"]
     }
 })
+initSocket(io)
 app.use(errorHandler)
 
 server.listen(PORT, () => {
