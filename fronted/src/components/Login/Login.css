@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px;
+    gap: 10px;
+    background-color: rgb(130, 128, 128);
+    height: 74.5vh;
+}
+
+.email-input {
+    padding: 20px;
+    background-color: rgb(77, 72, 72);
+}
+
+.password-input {
+    padding: 20px;
+    background-color: rgb(77, 72, 72);
+}
+
+.button-login {
+    padding: 20px;
+    background-color: rgb(185, 180, 180);
+}
+
+.button-login:hover {
+    background-color: rgb(66, 65, 65)
+}
